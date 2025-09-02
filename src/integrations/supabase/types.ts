@@ -14,7 +14,155 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      provider_media: {
+        Row: {
+          created_at: string
+          file_name: string | null
+          file_size: number | null
+          id: string
+          media_type: string
+          media_url: string
+          provider_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          file_name?: string | null
+          file_size?: number | null
+          id?: string
+          media_type: string
+          media_url: string
+          provider_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          file_name?: string | null
+          file_size?: number | null
+          id?: string
+          media_type?: string
+          media_url?: string
+          provider_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_media_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "provider_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provider_profiles: {
+        Row: {
+          bio: string | null
+          city: string
+          created_at: string
+          display_name: string
+          id: string
+          is_verified: boolean | null
+          phone_number: string | null
+          profile_image_url: string | null
+          subscription_end_date: string | null
+          subscription_status: Database["public"]["Enums"]["subscription_status"]
+          updated_at: string
+          user_id: string | null
+          whatsapp_number: string | null
+        }
+        Insert: {
+          bio?: string | null
+          city: string
+          created_at?: string
+          display_name: string
+          id?: string
+          is_verified?: boolean | null
+          phone_number?: string | null
+          profile_image_url?: string | null
+          subscription_end_date?: string | null
+          subscription_status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string
+          user_id?: string | null
+          whatsapp_number?: string | null
+        }
+        Update: {
+          bio?: string | null
+          city?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          is_verified?: boolean | null
+          phone_number?: string | null
+          profile_image_url?: string | null
+          subscription_end_date?: string | null
+          subscription_status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string
+          user_id?: string | null
+          whatsapp_number?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          status: Database["public"]["Enums"]["subscription_status"]
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["subscription_status"]
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +171,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      subscription_status: "active" | "inactive" | "cancelled" | "pending"
+      user_role: "client" | "provider"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +299,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      subscription_status: ["active", "inactive", "cancelled", "pending"],
+      user_role: ["client", "provider"],
+    },
   },
 } as const
